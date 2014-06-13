@@ -1,15 +1,36 @@
-## Put comments here that give an overall description of what your
-## functions do
+## This function set and get the value of the matrix
+## and then set and get the value of inverse matrix
 
-## Write a short comment describing this function
+## The input is a matrix and the output is a list containing 4 objects
 
 makeCacheMatrix <- function(x = matrix()) {
-
+    m <- NULL
+    set <- function(y) {
+        x <<- y
+        m <<- NULL
+    }
+    get <- function() x
+    setsolve <- function(solve) m <<- solve
+    getsolve <- function() m
+    list(set = set, get = get,
+         setsolve = setsolve,
+         getsolve = getsolve)
 }
 
+## This function computes inverse matrix of the input matrix of makeCacheMatrix function
+## or reuses the inverse matrix of the input matrix if the inverse matrix is available
 
-## Write a short comment describing this function
+## The input is the list preprocessed by makeCacheMatrix
+## and the output is the inverse matrix
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+    m <- x$getsolve()
+    if(!is.null(m)) {
+        message("getting cached data")
+        return(m)
+    }
+    data <- x$get()
+    m <- solve(data, ...)
+    x$setsolve(m)
+    m
 }
